@@ -5,7 +5,7 @@ require "rack-cache"
 
 module Cosmos
   class Service
-    attr_writer :endpoint
+    attr_writer :endpoint, :cache_dir
 
     def initialize(&block)
       yield(self)
@@ -17,7 +17,7 @@ module Cosmos
         builder.request  :retry
         builder.response :collection_json, :content_type => /collection\+json$/
         builder.response :json, :content_type => /application\/json$/
-        if false
+        if @cache_dir
           builder.use FaradayMiddleware::RackCompatible, Rack::Cache::Context,
             :default_ttl => 0,
             :metastore   => "file:#{@cache_dir}/rack/meta",
