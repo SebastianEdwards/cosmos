@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.add_dependency "middleware"
   s.add_dependency "faraday", ">= 0.8.0.rc2"
   s.add_dependency "faraday_middleware"
   s.add_dependency "faraday_collection_json"

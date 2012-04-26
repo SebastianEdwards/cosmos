@@ -1,11 +1,14 @@
+require "middleware"
 require "faraday"
 require "faraday_middleware"
 require "faraday_collection_json"
 require "rack-cache"
 
+Dir[File.dirname(__FILE__) + '/middleware/*.rb'].each {|file| require file }
+
 module Cosmos
   class Service
-    attr_writer :endpoint, :cache_dir
+    attr_accessor :endpoint, :cache_dir
 
     def initialize(&block)
       yield(self)
@@ -28,8 +31,16 @@ module Cosmos
       end
     end
 
-    def endpoint
-      client.get(@endpoint).body
+    def default_env
+      {
+        client: client,
+        service: self
+      }
+    end
+
+    def call(env = {}, &block)
+      env = default_env.merge(env)
+      ::Middleware::Builder.new(&block).call env
     end
   end
 end
