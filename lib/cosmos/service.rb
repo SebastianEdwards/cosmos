@@ -15,7 +15,7 @@ module Cosmos
     end
 
     def client
-      @client ||= Faraday.new do |builder|
+      Faraday.new do |builder|
         builder.request  :url_encoded
         builder.request  :retry
         builder.response :collection_json, :content_type => /collection\+json($|;(((\s+|)\w+=\w+)*)$)/
