@@ -10,9 +10,13 @@ module Cosmos
         data = env[@key]
         template = env[:current_body].template
         built_template = template.build(data)
-        raise built_template.inspect.to_json
 
-        response = env[:client].post(link.href)
+        response = env[:client].post do |req|
+          req.url env[:current_body].href
+          req.headers['Content-Type'] = 'application/vnd.collection+json'
+          req.body = built_template.to_json
+        end
+
         env[:current_status] = response.status
         env[:current_body] = response.body
         env[:current_headers] = response.headers
