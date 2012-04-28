@@ -6,6 +6,8 @@ require "rack-cache"
 
 Dir[File.dirname(__FILE__) + '/middleware/*.rb'].each {|file| require file }
 
+::Middleware::Runner.const_set :EMPTY_MIDDLEWARE, lambda { |env| env }
+
 module Cosmos
   class Service
     attr_accessor :endpoint, :cache_dir
