@@ -18,7 +18,7 @@ module Cosmos
       Faraday.new do |builder|
         builder.request  :url_encoded
         builder.request  :retry
-        builder.response :collection_json, :content_type => /collection\+json($|;(((\s+|)\w+=\w+)*)$)/
+        builder.response :collection_json, :content_type => /^application\/vnd\.collection\+json/
         builder.response :json, :content_type => /^application\/json/
         if @cache_dir
           builder.use FaradayMiddleware::RackCompatible, Rack::Cache::Context,
