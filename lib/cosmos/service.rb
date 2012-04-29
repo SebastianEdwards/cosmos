@@ -10,7 +10,7 @@ Dir[File.dirname(__FILE__) + '/middleware/*.rb'].each {|file| require file }
 
 module Cosmos
   class Service
-    attr_accessor :endpoint, :cache_dir
+    attr_accessor :endpoint, :cache
 
     def initialize(&block)
       yield(self)
@@ -22,12 +22,9 @@ module Cosmos
         builder.request  :retry
         builder.response :collection_json, :content_type => /^application\/vnd\.collection\+json/
         builder.response :json, :content_type => /^application\/json/
-        if @cache_dir
+        if @cache
           builder.use FaradayMiddleware::RackCompatible, Rack::Cache::Context,
-            :default_ttl => 0,
-            :metastore   => "file:#{@cache_dir}/rack/meta",
-            :entitystore => "file:#{@cache_dir}/rack/body",
-            :ignore_headers => %w[Set-Cookie X-Content-Digest]
+            @cache.merge({ignore_headers: %w[Set-Cookie X-Content-Digest]})
         end
         builder.adapter  :typhoeus
       end
