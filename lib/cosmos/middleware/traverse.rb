@@ -8,7 +8,7 @@ module Cosmos
   end
 
   module Middleware
-    class Traverse < Stub
+    class Traverse < AdaptorMiddlewareProxy
       middleware_type :traverse
     end
   end

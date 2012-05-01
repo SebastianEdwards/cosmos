@@ -15,7 +15,7 @@ module Cosmos
     end
   end
 
-  autoload :ContentType,      "cosmos/content_type"
+  autoload :Adaptor,          "cosmos/adaptor"
   autoload :Middleware,       "cosmos/middleware"
   autoload :RackMiddleware,   "cosmos/rack_middleware"
   autoload :ServiceClient,    "cosmos/service_client"

@@ -1,5 +1,5 @@
 module Cosmos
-  class ContentType
+  class Adaptor
     extend MiddlewareRegistry
 
     class << self
@@ -35,7 +35,7 @@ module Cosmos
       (@content_type_classes ||= []) << subclass
     end
 
-    def self.find_class_by_content_type(content_type)
+    def self.find_by_content_type(content_type)
       return nil if @content_type_classes.nil?
       @content_type_classes.select do |klass|
         klass.supports_media_type?(content_type)
@@ -43,5 +43,3 @@ module Cosmos
     end
   end
 end
-
-require "cosmos/content_type/collection_json"

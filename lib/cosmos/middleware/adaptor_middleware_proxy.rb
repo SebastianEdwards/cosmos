@@ -1,6 +1,6 @@
 module Cosmos
   module Middleware
-    class Stub
+    class AdaptorMiddlewareProxy
       def self.middleware_type(value = nil)
         @middleware_type = value unless value.nil?
         @middleware_type
@@ -14,7 +14,7 @@ module Cosmos
 
       def call(env)
         content_type = env[:current].headers['Content-Type']
-        if klass = ContentType.find_class_by_content_type(content_type)
+        if klass = Adaptor.find_by_content_type(content_type)
           if middleware = klass.lookup_middleware(self.class.middleware_type)
             middleware.new(@app, *@args, &@block).call(env)
           else

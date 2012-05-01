@@ -1,7 +1,7 @@
-require "cosmos/content_type"
+require "cosmos"
 
 module Cosmos
-  class CollectionJSON < ContentType
+  class CollectionJSON < Adaptor
     associate_media_type  "application/vnd.collection+json"
     dependency            "collection-json"
 

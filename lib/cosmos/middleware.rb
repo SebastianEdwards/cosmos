@@ -2,14 +2,14 @@ module Cosmos
   module Middleware
     extend MiddlewareRegistry
 
-    autoload :Check,      "cosmos/middleware/check"
-    autoload :Discover,   "cosmos/middleware/discover"
-    autoload :Load,       "cosmos/middleware/load"
-    autoload :Save,       "cosmos/middleware/save"
-    autoload :SetHeaders, "cosmos/middleware/set_headers"
-    autoload :Stub,       "cosmos/middleware/stub"
-    autoload :Submit,     "cosmos/middleware/submit"
-    autoload :Traverse,   "cosmos/middleware/traverse"
+    autoload :AdaptorMiddlewareProxy,   "cosmos/middleware/adaptor_middleware_proxy"
+    autoload :Check,                    "cosmos/middleware/check"
+    autoload :Discover,                 "cosmos/middleware/discover"
+    autoload :Load,                     "cosmos/middleware/load"
+    autoload :Save,                     "cosmos/middleware/save"
+    autoload :SetHeaders,               "cosmos/middleware/set_headers"
+    autoload :Submit,                   "cosmos/middleware/submit"
+    autoload :Traverse,                 "cosmos/middleware/traverse"
 
     register_middleware \
       :check        => :Check,
