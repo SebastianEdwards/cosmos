@@ -23,6 +23,9 @@ module Cosmos
       :traverse     => :Traverse
 
     class PrettyBuilder
+      extend Forwardable
+      def_delegators :@stack, :use
+
       def initialize(stack)
         @stack = stack
       end
