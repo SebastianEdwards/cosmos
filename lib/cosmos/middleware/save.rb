@@ -7,7 +7,7 @@ module Cosmos
       end
 
       def call(env)
-        env[@key] = env[:current_body]
+        env[@key] = env[:current]
         @app.call env
       end
     end

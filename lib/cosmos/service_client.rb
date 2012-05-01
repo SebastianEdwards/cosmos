@@ -4,20 +4,36 @@ require "faraday_middleware"
 require "faraday_collection_json"
 require "rack-cache"
 
-Dir[File.dirname(__FILE__) + '/middleware/*.rb'].each {|file| require file }
-
 ::Middleware::Runner.const_set :EMPTY_MIDDLEWARE, lambda { |env| env }
 
 module Cosmos
-  class Service
-    attr_accessor :endpoint, :cache
+  class ServiceClient
+    attr_writer :cache, :default_endpoint, :http_client
 
-    def initialize(&block)
-      yield(self)
+    def initialize(opts = {})
+      opts.each do |k,v|
+        send("#{k}=", v) if respond_to?("#{k}=")
+      end
     end
 
-    def client
-      Faraday.new do |builder|
+    def call(env = {}, &block)
+      env = default_env.merge(env)
+      stack = ::Middleware::Builder.new
+      pretty_builder = Middleware::PrettyBuilder.new(stack)
+      block.call(pretty_builder) if block_given?
+      stack.call(env)
+    end
+
+    private
+    def default_env
+      {
+        client:           http_client,
+        default_endpoint: @default_endpoint
+      }
+    end
+
+    def http_client
+      @http_client ||= Faraday.new do |builder|
         builder.request  :url_encoded
         builder.request  :retry
         builder.response :collection_json, :content_type => /^application\/vnd\.collection\+json/
@@ -28,18 +44,6 @@ module Cosmos
         end
         builder.adapter  :typhoeus
       end
-    end
-
-    def default_env
-      {
-        client: client,
-        service: self
-      }
-    end
-
-    def call(env = {}, &block)
-      env = default_env.merge(env)
-      ::Middleware::Builder.new(&block).call env
     end
   end
 end

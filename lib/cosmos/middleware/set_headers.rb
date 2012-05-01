@@ -1,13 +1,13 @@
 module Cosmos
   module Middleware
-    class Load
-      def initialize(app, key)
+    class SetHeaders
+      def initialize(app, headers)
         @app = app
-        @key = key
+        @headers = headers
       end
 
       def call(env)
-        env[:current] = env[@key]
+        env[:headers].merge!(@header)
         @app.call env
       end
     end

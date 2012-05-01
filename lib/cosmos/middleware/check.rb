@@ -24,7 +24,7 @@ module Cosmos
       end
 
       def call(env)
-        @subject = env[:current_body]
+        @subject = env[:current].body
         if respond_to? @type
           success = send(@type)
           raise @error.new(@type) unless success

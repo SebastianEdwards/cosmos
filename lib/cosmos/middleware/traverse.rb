@@ -8,22 +8,8 @@ module Cosmos
   end
 
   module Middleware
-    class Traverse
-      def initialize(app, rel)
-        @app = app
-        @rel = rel
-      end
-
-      def call(env)
-        link = env[:current_body].link(@rel)
-        raise UnknownLinkError.new(@rel) if link.nil?
-        client = env[:client]
-        response = env[:client].get(link.href)
-        env[:current_status] = response.status
-        env[:current_body] = response.body
-        env[:current_headers] = response.headers
-        @app.call env
-      end
+    class Traverse < Stub
+      middleware_type :traverse
     end
   end
 end
