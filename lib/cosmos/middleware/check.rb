@@ -1,12 +1,4 @@
 module Cosmos
-  class FailedCheckError < StandardError
-    attr_reader :check_type
-
-    def initialize(check_type)
-      @check_type = check_type
-    end
-  end
-
   module Middleware
     class Check
       def initialize(app, type, error = FailedCheckError)

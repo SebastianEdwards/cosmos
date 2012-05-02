@@ -19,4 +19,20 @@ module Cosmos
   autoload :Middleware,       "cosmos/middleware"
   autoload :RackMiddleware,   "cosmos/rack_middleware"
   autoload :ServiceClient,    "cosmos/service_client"
+
+  class UnknownLinkError < StandardError
+    attr_reader :rel
+
+    def initialize(rel)
+      @rel = rel
+    end
+  end
+
+  class FailedCheckError < StandardError
+    attr_reader :check_type
+
+    def initialize(check_type)
+      @check_type = check_type
+    end
+  end
 end
