@@ -8,18 +8,17 @@ module Cosmos
 
       def call(env)
         data = env[@key]
-        template = env[:current_body].template
+        template = env[:current].body.template
         built_template = template.build(data)
 
         response = env[:client].post do |req|
-          req.url env[:current_body].href
+          req.url env[:current].body.href
           req.headers['Content-Type'] = 'application/vnd.collection+json'
           req.body = built_template.to_json
         end
 
-        env[:current_status] = response.status
-        env[:current_body] = response.body
-        env[:current_headers] = response.headers
+        env[:current] = response
+
         @app.call env
       end
     end
