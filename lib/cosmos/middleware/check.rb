@@ -1,7 +1,7 @@
 module Cosmos
   module Middleware
     class Check
-      def initialize(app, type, error = FailedCheckError)
+      def initialize(app, type, error = FailedCheck)
         @app    = app
         @type   = type
         @error =  error
