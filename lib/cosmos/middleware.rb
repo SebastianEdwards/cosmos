@@ -6,6 +6,7 @@ module Cosmos
     autoload :Check,                    "cosmos/middleware/check"
     autoload :Discover,                 "cosmos/middleware/discover"
     autoload :Load,                     "cosmos/middleware/load"
+    autoload :Query,                    "cosmos/middleware/query"
     autoload :Save,                     "cosmos/middleware/save"
     autoload :SetHeaders,               "cosmos/middleware/set_headers"
     autoload :Submit,                   "cosmos/middleware/submit"
@@ -16,6 +17,7 @@ module Cosmos
       :discover     => :Discover,
       :enter        => :Discover,
       :load         => :Load,
+      :query        => :Query,
       :save         => :Save,
       :set_header   => :SetHeaders,
       :set_headers  => :SetHeaders,
